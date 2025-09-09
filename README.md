@@ -1,6 +1,7 @@
 # 📊 Guia de Processamento Estatístico
 ---
-saybriel
+
+
 ## 🗂️ Entradas
 
 - **Arquivo Excel** contendo:
