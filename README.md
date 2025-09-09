@@ -1,13 +1,5 @@
 # 📊 Guia de Processamento Estatístico
 ---
-Gabriel
-Gay
-Aberto
-Bocaberta
-rodado
-israelence
-estacionamento
-louco
 
 ## 🗂️ Entradas
 
