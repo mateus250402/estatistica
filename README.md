@@ -1,5 +1,6 @@
 # 📊 Guia de Processamento Estatístico
 ---
+Gabriel
 
 ## 🗂️ Entradas
 
