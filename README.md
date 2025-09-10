@@ -1,7 +1,6 @@
 # 📊 Guia de Processamento Estatístico
 ---
 
-
 ## 🗂️ Entradas
 
 - **Arquivo Excel** contendo:
