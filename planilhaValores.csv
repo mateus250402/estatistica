@@ -1,4 +1,4 @@
-Nº,Sexo,Idade,Altura (m),Peso (kg),Velocidade da Internet Gb/s,Dados diários GB/dia,Tempo de uso de Redes Sociais h/semana,Tempo de estudo h/semana,Gasto com Plano anual de Dados (Reais)
+N,Sexo,Idade,Altura,Peso,VelocidadeInternet,DadosDiarios,TempoUso,TempoEstudo,GastoPlano
 1,M,25,1.72,75,35,32,18,24,480
 2,F,20,1.60,60,22,28,15,22,410
 3,M,21,1.75,82,41,37,20,28,530
