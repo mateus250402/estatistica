@@ -1,12 +1,12 @@
-import pandas as pd
+import pandas
 
 #Le arquivo e pede coluna
-df = pd.read_csv("planilhaValores.csv", sep=",")
-print(df.columns)
+dataFrame = pandas.read_csv("planilhaValores.csv", sep=",")
+print(dataFrame.columns)
 escolha = input("Qual coluna deseja analisar?")
 
 #pega a coluna , ordena e mostra
-coluna = df[escolha].sort_values()
+coluna = dataFrame[escolha].sort_values()
 coluna = coluna.reset_index(drop=True)
 print(coluna)
 
