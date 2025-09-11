@@ -2,6 +2,7 @@ import pandas as pd
 from math import sqrt
 import streamlit
 import matplotlib.pyplot
+import numpy
 
 def ler_arquivo(arquivo):
     return pd.read_csv(arquivo, sep=",")
@@ -137,7 +138,7 @@ def gerar_estatisticas(classes):
     
     return dados
 
-def gerar_graficos(dados, classes):
+def gerar_histograma(classes):
     larguras = []
     centros = []
     frequencias = []
@@ -158,6 +159,50 @@ def gerar_graficos(dados, classes):
     ax.set_title("Histograma de Classes")
     streamlit.pyplot(fig)
 
+
+def gerar_poligono_frequencia(dados, classes):
+    pontosMedios = []
+    frequencias = []
+    for inf, sup, freq in classes:
+        pontosMedios.append((inf+sup)/2)
+        frequencias.append(freq)
+# Criar gráfico
+    streamlit.subheader("Polígono de Frequência")
+    fig, ax = matplotlib.pyplot.subplots()
+
+    # Usar ax.bar com largura personalizada
+    fig, ax = matplotlib.pyplot.subplots()
+    ax.plot(pontosMedios, frequencias, marker="o", linestyle="-", color="b")
+    ax.set_xlabel("Classes (pontos médios)")
+    ax.set_ylabel("Frequência")
+    ax.set_title("Polígono de Frequência")
+
+    streamlit.pyplot(fig)
+
+def gerar_ogiva_galton(dados, classes):
+    streamlit.subheader("Ogiva de Galton")
+    limeteSuperiores = []
+    frequencias = []
+    frequenciasAcumuladas = []
+    for inf, sup, freq in classes:
+        limeteSuperiores.append(sup)
+        frequencias.append(freq)
+    
+    frequenciasAcumuladas = numpy.cumsum(frequencias)
+
+    fig, ax = matplotlib.pyplot.subplots()
+    ax.plot(limeteSuperiores, frequenciasAcumuladas, marker="o", linestyle="-", color="g")
+    ax.set_xlabel("Limite Superior da Classe")
+    ax.set_ylabel("Frequência Acumulada")
+    ax.set_title("Ogiva de Galton")
+
+    streamlit.pyplot(fig)
+
+def gerar_graficos(dados, classes):
+
+    gerar_histograma(classes)
+    gerar_poligono_frequencia(dados, classes)
+    gerar_ogiva_galton(dados, classes)
 
 def gerar_classes_grafica(classes):
     df_classes = pd.DataFrame(classes, columns=["Limite Inferior", "Limite Superior", "Frequência"])
