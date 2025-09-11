@@ -1,16 +1,25 @@
 import pandas as pd
 from math import sqrt
+import streamlit
+import matplotlib.pyplot
 
 def ler_arquivo(arquivo):
     return pd.read_csv(arquivo, sep=",")
 
+def desenha_coluna(dataFrame):
+    streamlit.title("Análise Estatística de Dados")
+    streamlit.subheader("Escolha a coluna para análise e visualize os resultados")
+
+    # Mostreamlitrar DataFrame em expander
+    with streamlit.expander("Mostrar Tabela completa"):
+        streamlit.dataframe(dataFrame)
+ 
+
 def separar_coluna(dataFrame):
-    print(dataFrame.columns)
-    
-    escolha = input("Qual coluna deseja analisar? ")
+    desenha_coluna(dataFrame)
+    escolha = streamlit.selectbox("Escolha a coluna para análise:", dataFrame.columns)
     coluna = dataFrame[escolha].sort_values()
     coluna = coluna.reset_index(drop=True)
-    
     return coluna
 
 def calcular_amplitude(coluna):
@@ -104,12 +113,11 @@ def calcular_cv(dp, media):
     
     return cv
         
-def gerar_classes(arquivo):
-    dataFrame = ler_arquivo(arquivo)
-    coluna = separar_coluna(dataFrame)
+def gerar_info(coluna):
     amplitudeClasses = calcular_amplitude(coluna)
-    classes = gerar_classes(coluna, amplitudeClasses)       
-
+    classes = gerar_classes(coluna, amplitudeClasses) 
+    return classes      
+    
 def gerar_estatisticas(classes):
     media = calcular_media(classes)
     moda = calcular_moda(classes)
@@ -129,9 +137,63 @@ def gerar_estatisticas(classes):
     
     return dados
 
+def gerar_graficos(dados, classes):
+    larguras = []
+    centros = []
+    frequencias = []
+
+    for inf, sup, freq in classes:
+        centros.append((inf + sup)/2)  # ponto central da classe
+        larguras.append(sup - inf)     # largura da barra
+        frequencias.append(freq)
+
+    # Criar gráfico
+    streamlit.subheader("Histograma de Classes")
+    fig, ax = matplotlib.pyplot.subplots()
+
+    # Usar ax.bar com largura personalizada
+    ax.bar(centros, frequencias, width=larguras, edgecolor="black", align="center")
+    ax.set_xlabel("Intervalos de Classe")
+    ax.set_ylabel("Frequência")
+    ax.set_title("Histograma de Classes")
+    streamlit.pyplot(fig)
+
+
+def gerar_classes_grafica(classes):
+    df_classes = pd.DataFrame(classes, columns=["Limite Inferior", "Limite Superior", "Frequência"])
+
+    # Mostrar tabela no Streamlit
+    streamlit.subheader("Classes de Frequência")
+    streamlit.table(df_classes)  # tabela estática
+    
+
+def gerar_parte_grafica(dados, classes):
+    
+    gerar_classes_grafica(classes)
+    streamlit.header("Estatísticas Calculadas")
+    
+    # Mostrar estatísticas em colunas
+    col1, col2, col3 = streamlit.columns(3)
+    
+    col1.metric("Média", f"{dados['media']:.2f}")
+    col1.metric("Moda", f"{dados['moda']:.2f}")
+    
+    col2.metric("Mediana", f"{dados['mediana']:.2f}")
+    col2.metric("Variância", f"{dados['variancia']:.2f}")
+    
+    col3.metric("Desvio Padrão", f"{dados['dp']:.2f}")
+    col3.metric("Coeficiente de Variabilidade", f"{dados['cv']:.2f}")
+
+    gerar_graficos(dados, classes)
+
+
 def main():
-    classes = gerar_classes("planilhaValores.csv")
+    dataFrame = ler_arquivo("planilhaValores.csv")
+    coluna = separar_coluna(dataFrame)
+    classes = gerar_info(coluna)
     dados = gerar_estatisticas(classes)
+    gerar_parte_grafica(dados, classes)
+
 
 if __name__ == "__main__":
     main()
