@@ -15,7 +15,6 @@ def desenha_coluna(dataFrame):
     with streamlit.expander("Mostrar Tabela completa"):
         streamlit.dataframe(dataFrame)
  
-
 def separar_coluna(dataFrame):
     desenha_coluna(dataFrame)
     escolha = streamlit.selectbox("Escolha a coluna para análise:", dataFrame.columns)
@@ -159,7 +158,6 @@ def gerar_histograma(classes):
     ax.set_title("Histograma de Classes")
     streamlit.pyplot(fig)
 
-
 def gerar_poligono_frequencia(dados, classes):
     pontosMedios = []
     frequencias = []
@@ -209,8 +207,7 @@ def gerar_classes_grafica(classes):
 
     # Mostrar tabela no Streamlit
     streamlit.subheader("Classes de Frequência")
-    streamlit.table(df_classes)  # tabela estática
-    
+    streamlit.table(df_classes)  # tabela estática 
 
 def gerar_parte_grafica(dados, classes):
     
@@ -231,14 +228,12 @@ def gerar_parte_grafica(dados, classes):
 
     gerar_graficos(dados, classes)
 
-
 def main():
     dataFrame = ler_arquivo("planilhaValores.csv")
     coluna = separar_coluna(dataFrame)
     classes = gerar_info(coluna)
     dados = gerar_estatisticas(classes)
     gerar_parte_grafica(dados, classes)
-
 
 if __name__ == "__main__":
     main()
