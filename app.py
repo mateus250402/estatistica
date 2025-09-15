@@ -113,6 +113,13 @@ def calcular_cv(dp, media):
     
     return cv
         
+def calcular_freq_relativa(classes):
+    freqRelativa = []
+    
+    for inf, sup, freq in classes:
+        freqRelativa.append(freq/30)
+    return freqRelativa
+        
 def gerar_info(coluna):
     amplitudeClasses = calcular_amplitude(coluna)
     classes = gerar_classes(coluna, amplitudeClasses) 
@@ -182,6 +189,7 @@ def gerar_ogiva_galton(dados, classes):
     limeteSuperiores = []
     frequencias = []
     frequenciasAcumuladas = []
+    
     for inf, sup, freq in classes:
         limeteSuperiores.append(sup)
         frequencias.append(freq)
